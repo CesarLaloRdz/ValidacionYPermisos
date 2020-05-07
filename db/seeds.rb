@@ -7,5 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 100.times do |i|
-    Book.create(title: "Book #{i}", author: "Author #{i}", description: "Description #{i}", image_url: "http://lorempixel.com/320/460/", publication_date: "01-01-2000", price: 1)
+    Book.create(title: "Book #{i}", author: "Author #{i}", description: "Description #{i}", publication_date: "01-01-2000", price: 1)
   end

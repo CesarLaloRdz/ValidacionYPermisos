@@ -1,17 +1,17 @@
 class BooksController < ApplicationController
-
-    before_action :authenticate_user!, except: [:index, :show]
-
+  
     def index
         @books = Book.all
+        #authorize! :read, @book, :message => "Unable to read Articles."
     end
 
     def show
-        @books = Book.find(params[:id])
+        @book = Book.find(params[:id])
+        authorize! :read, @book, :message => "Unable to read Articles."
     end
 
     def new
-         @books = Book.new
+         @book = Book.new
     end
 
     def create
@@ -22,18 +22,15 @@ class BooksController < ApplicationController
           render :new
         end
     end
-      
-    private
-        def book_params
-            params.require(:book).permit(:title, :author, :description, :image_url, :publication_date, :price)
-        end
 
     def edit
         @book = Book.find(params[:id])
+        authorize! :manage, @book, :message => "Unable to read Articles."
     end
 
     def update
         @book = Book.find(params[:id])
+        #authorize! :manage, @book, :message => "Unable to read Articles."
         if @book.update(book_params)
           redirect_to @book
         else
@@ -44,9 +41,15 @@ class BooksController < ApplicationController
 
     def destroy
         @book = Book.find(params[:id])
-        book.destroy
+        authorize! :manage, @book, :message => "Unable to read Articles."
+        @book.destroy
       
         redirect_to books_path
     end
+
+    private
+        def book_params
+            params.require(:book).permit(:title, :author, :description, :publication_date, :price)
+        end
 
 end
